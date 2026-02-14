@@ -86,7 +86,10 @@ def read_bytes(file, dtype, count=1):
         The read dtype array.
     """
     dtype = np.dtype(dtype)
-    value = np.fromstring(file.read(dtype.itemsize * count), dtype=dtype)
+    try:
+        value = np.fromstring(file.read(dtype.itemsize * count), dtype=dtype)
+    except Exception:
+        value = np.frombuffer(file.read(dtype.itemsize * count), dtype=dtype)
     if count == 1:
         return value[0]
     return value
